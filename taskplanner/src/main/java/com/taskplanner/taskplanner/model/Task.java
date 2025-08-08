@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -19,10 +20,11 @@ public class Task {
     @NotNull
     @Column(name="createdAt",nullable=false,updatable = false)
     @CreationTimestamp
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @NotNull
     @Column(name="taskId",nullable=false,unique=true)
+    @Id
     private String taskId;
 
     @NotNull
@@ -35,12 +37,12 @@ public class Task {
 
     @Convert(converter = PriorityConverter.class)
     @Column(name="taskPriority")
-    private int taskPriority;
+    private Priority taskPriority;
 
     @Convert(converter = StatusConverter.class)
     @NotNull
     @Column(name="taskStatus",nullable = false)
-    private int taskStatus;
+    private Status taskStatus;
 
     @Column(name="taskEpic")
     private String taskEpic;

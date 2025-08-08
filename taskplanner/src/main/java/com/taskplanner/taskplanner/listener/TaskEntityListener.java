@@ -10,7 +10,7 @@ public class TaskEntityListener {
     @PrePersist
     public void onCreate(Task task){
         if (task.getCreatedAt() == null) {
-            task.setCreatedAt(LocalDate.now());
+            task.setCreatedAt(LocalDateTime.now());
         }
         String ts = task.getCreatedAt().format(TS_FMT);
         task.setTaskId(task.getUserId() + "_" + ts);
