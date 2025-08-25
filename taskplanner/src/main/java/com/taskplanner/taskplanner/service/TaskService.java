@@ -6,5 +6,5 @@ public interface TaskService {
     TaskDto createTask(CreateTaskRequest req);
     List<TaskDto> getTasksForUser(Long userId);
     List<TaskDto> getTasksForUserByState(long userId, int taskStatus);
-    List<TaskDto> getAllTasks();
+    Map<String,List<TaskDto>> getAllTasks();
 }
