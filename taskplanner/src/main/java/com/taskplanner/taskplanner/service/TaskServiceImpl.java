@@ -1,16 +1,10 @@
 package com.taskplanner.taskplanner.service;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.stereotype.Service;
 import com.taskplanner.taskplanner.repo.*;
 import com.taskplanner.taskplanner.model.*;
 import com.taskplanner.taskplanner.dto.*;
 
-import org.springframework.context.event.EventListener;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import com.taskplanner.taskplanner.dto.*;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -41,13 +35,22 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
     @Override
-    public List<TaskDto> getAllTasks(){
+    public Map<String,List<TaskDto>> getAllTasks(){
         List<Task>tasks=repo.findAll();
         List<TaskDto>taskDtos=new ArrayList<>();
         for(Task t:tasks){
             taskDtos.add(toDto(t));
         }
-        return taskDtos;
+        Map<String,List<TaskDto>> taskDtosMap=new HashMap<>();
+        for(TaskDto tDto:taskDtos){
+            Status statusType= tDto.getTaskStatus();
+            String status = statusType.getLabel();
+            if(!taskDtosMap.containsKey(status)){
+                taskDtosMap.put(status, new ArrayList<>());
+            }
+            taskDtosMap.get(status).add(tDto);
+        }
+        return taskDtosMap;
     }
     private TaskDto toDto(Task t) {
         return new TaskDto(

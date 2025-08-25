@@ -19,7 +19,7 @@ public class TaskController {
         this.tService=service;
     }
     @GetMapping
-    public List<TaskDto> getAllTasklets() {
+    public Map<String,List<TaskDto>> getAllTasklets() {
         return tService.getAllTasks();
     }
     
